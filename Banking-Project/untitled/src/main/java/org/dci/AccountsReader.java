@@ -20,11 +20,23 @@ public class AccountsReader {
                             .withSeparator(';').build())
                     .build();
 
+
             while ((nextLine = csvReader.readNext()) != null) {
-                for(String output : nextLine) {
-                    System.out.println("Entry:");
-                    System.out.println(output);
-                }
+                CheckingAccount testAccount = new CheckingAccount(nextLine[0],
+                        nextLine[1],
+                        Float.parseFloat(nextLine[2]),
+                        Integer.parseInt(nextLine[3]),
+                        Integer.parseInt(nextLine[4]),
+                        nextLine[5],
+                        Boolean.parseBoolean(nextLine[6]),
+                        Boolean.parseBoolean(nextLine[7]),
+                        Float.parseFloat(nextLine[8]));
+                System.out.println(testAccount.toString());
+//                System.out.println(nextLine[0]);
+//                for(String output : nextLine) {
+//                    System.out.println("Entry:");
+//                    System.out.println(output);
+//                }
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
