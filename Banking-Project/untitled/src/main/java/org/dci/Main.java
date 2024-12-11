@@ -1,5 +1,7 @@
 package org.dci;
 
+import javax.swing.*;
+import java.awt.*;
 import java.io.File;
 import java.util.ArrayList;
 
@@ -17,5 +19,15 @@ public class Main {
         accounts.get(0).setBalance(996.222F);
         accounts.get(1).setUserName("Julia");
         readWrite.write(new File("src/main/resources/test-data.csv"));
+
+        JFrame frame = new JFrame("Banking App");
+        frame.setSize(400, 200);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(true);
+        JPanel panel = new JPanel();
+        panel.setBackground(Color.orange);
+        JButton okButton = new JButton("Hallo");
+        panel.add(okButton);
+        frame.add(panel);
     }
 }
