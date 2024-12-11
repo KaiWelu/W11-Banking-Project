@@ -1,6 +1,6 @@
 package org.dci;
 
-public abstract class Account {
+public class Account {
     private String userName;
     private String password;
     private float balance;
@@ -95,4 +95,8 @@ public abstract class Account {
         this.withdrawLimit = withdrawLimit;
     }
 
+    @Override
+    public String toString() {
+        return "Username: " + getUserName() + " Balance: " + getBalance();
+    }
 }

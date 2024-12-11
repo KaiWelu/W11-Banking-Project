@@ -11,7 +11,7 @@ import com.opencsv.CSVReaderBuilder;
 import com.opencsv.CSVWriter;
 
 public class AccReadWrite {
-    private ArrayList<CheckingAccount> accounts = new ArrayList<>();
+    private ArrayList<Account> accounts = new ArrayList<>();
 
     // gets a file to read
     public void read(File file) throws Exception {
@@ -27,7 +27,7 @@ public class AccReadWrite {
 
 
             while ((nextLine = csvReader.readNext()) != null) {
-                CheckingAccount currentAcc = new CheckingAccount(nextLine[0],
+                Account currentAcc = new Account(nextLine[0],
                         nextLine[1],
                         Float.parseFloat(nextLine[2]),
                         Integer.parseInt(nextLine[3]),
@@ -45,7 +45,7 @@ public class AccReadWrite {
             System.out.println("Finally reached");
         }
     }
-    public ArrayList<CheckingAccount> getAccounts() {
+    public ArrayList<Account> getAccounts() {
         return accounts;
     }
 
@@ -62,7 +62,7 @@ public class AccReadWrite {
 
             ArrayList<String[]> data = new ArrayList<>();
 //          this should be refactored
-            for(CheckingAccount account: accounts) {
+            for(Account account: accounts) {
                 data.add(new String [] {
                         account.getUserName(),
                         account.getPassword(),
