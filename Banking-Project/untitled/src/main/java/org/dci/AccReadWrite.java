@@ -41,8 +41,8 @@ public class AccReadWrite {
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
-        } {
-            System.out.println("Finally reached");
+        } finally {
+            csvReader.close();
         }
     }
     public ArrayList<Account> getAccounts() {

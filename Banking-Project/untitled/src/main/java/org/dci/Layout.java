@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Layout extends JFrame{
 //    public ArrayList<Account> session;
@@ -131,13 +132,13 @@ public class Layout extends JFrame{
         JLabel balanceLabel = new JLabel("Balance: " + String.valueOf(user.getBalance()) + " $");
         accountScreen.add(balanceLabel);
 
-        JLabel limitLabel = new JLabel("Withdraw Limit: " + String.valueOf(user.getWithdrawLimit()));
+        JLabel limitLabel = new JLabel("Withdraw Limit: " + String.valueOf(user.getWithdrawLimit()) + " $");
         accountScreen.add(limitLabel);
     }
 
     public void createNewAccount(String name, String password, String pin, ArrayList<Account> accounts, AccReadWrite readWrite) throws Exception {
-        accounts.add(new Account(name, password, 0, Integer.parseInt(pin), 5, "silver", true, true, 12.00f ));
-        readWrite.write(new File("src/main/resources/database.csv"));
+        accounts.add(new Account(name, password, 0, Integer.parseInt(pin), accounts.size()+1, "silver", true, true, 50.00f ));
+        readWrite.write(new File("src/main/resources/database2.csv"));
         System.out.println(accounts.getLast().toString());
     }
 }
