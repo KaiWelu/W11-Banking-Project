@@ -2,6 +2,8 @@ package org.dci;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
 
@@ -20,14 +22,30 @@ public class Main {
         accounts.get(1).setUserName("Julia");
         readWrite.write(new File("src/main/resources/test-data.csv"));
 
-        JFrame frame = new JFrame("Banking App");
-        frame.setSize(400, 200);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setVisible(true);
-        JPanel panel = new JPanel();
-        panel.setBackground(Color.orange);
-        JButton okButton = new JButton("Hallo");
-        panel.add(okButton);
-        frame.add(panel);
+        new Layout();
+
+//        JFrame frame = new JFrame("Banking App");
+//        frame.setSize(400, 200);
+//        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        frame.setVisible(true);
+//
+//        JPanel panel = new JPanel();
+//        panel.setBackground(Color.orange);
+//        JButton createAccountButton = new JButton("Create Account");
+//        JButton loginButton = new JButton("Login");
+//        panel.add(createAccountButton);
+//        panel.add(loginButton);
+//        frame.add(panel);
+//
+//        loginButton.addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                panel.remove(loginButton);
+//                panel.updateUI();
+//                System.out.println("Button clicked");
+//            }
+//        });
+
+
     }
 }
