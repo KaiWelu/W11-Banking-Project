@@ -11,7 +11,7 @@ public class Main {
     public static void main(String[] args) throws Exception{
         System.out.println("This is gonna be the banking app lol");
         AccReadWrite readWrite = new AccReadWrite();
-        readWrite.read(new File("src/main/resources/test-data.csv"));
+        readWrite.read(new File("src/main/resources/database.csv"));
 
         ArrayList<Account> accounts = readWrite.getAccounts();
 
