@@ -14,38 +14,9 @@ public class Main {
         readWrite.read(new File("src/main/resources/test-data.csv"));
 
         ArrayList<Account> accounts = readWrite.getAccounts();
-        for(Account account  : accounts) {
-            System.out.println(account.toString());
-        }
-        accounts.add(new Account("Heiner", "rofl", 89.00f, 6666, 3, "gold", false, true, -120.00f));
-        accounts.get(0).setBalance(996.222F);
-        accounts.get(1).setUserName("Julia");
+
+        new Layout(accounts);
         readWrite.write(new File("src/main/resources/test-data.csv"));
-
-        new Layout();
-
-//        JFrame frame = new JFrame("Banking App");
-//        frame.setSize(400, 200);
-//        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//        frame.setVisible(true);
-//
-//        JPanel panel = new JPanel();
-//        panel.setBackground(Color.orange);
-//        JButton createAccountButton = new JButton("Create Account");
-//        JButton loginButton = new JButton("Login");
-//        panel.add(createAccountButton);
-//        panel.add(loginButton);
-//        frame.add(panel);
-//
-//        loginButton.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                panel.remove(loginButton);
-//                panel.updateUI();
-//                System.out.println("Button clicked");
-//            }
-//        });
-
 
     }
 }
