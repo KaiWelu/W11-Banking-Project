@@ -2,13 +2,11 @@ package org.dci;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.sql.SQLOutput;
+import java.io.File;
 import java.util.ArrayList;
 
 public class Layout extends JFrame{
-    public ArrayList<Account> session;
+//    public ArrayList<Account> session;
     public Account user;
 
     // creates a new card layout and passes it to the jpanel
@@ -21,8 +19,7 @@ public class Layout extends JFrame{
     JPanel loginScreen = new JPanel();
 
 
-    Layout(ArrayList<Account> accounts) {
-        ArrayList<Account> session = accounts;
+    Layout(ArrayList<Account> accounts, AccReadWrite readWrite) {
         Account user = null;
 
 
@@ -45,7 +42,39 @@ public class Layout extends JFrame{
 
 //        layout for different screens
         accountScreen.setLayout(new BoxLayout(accountScreen, BoxLayout.Y_AXIS));
-        createAccountScreen.setLayout(new BoxLayout(createAccountScreen, BoxLayout.Y_AXIS));
+        // createAccountScreen.setLayout(new BoxLayout(createAccountScreen, BoxLayout.Y_AXIS));
+
+        // text fields and buttons for create acc screen
+        JLabel createAccLabel = new JLabel("Create a new bank account");
+        createAccountScreen.add(createAccLabel);
+
+        JTextField createUserField = new JTextField("Username", 20);
+        createAccountScreen.add(createUserField);
+
+        JTextField createPasswordField = new JTextField("Password", 20);
+        createAccountScreen.add(createPasswordField);
+
+        JTextField createPinField = new JTextField("PIN", 20);
+        createAccountScreen.add(createPinField);
+
+        JButton newAccountButton = new JButton("Create Account");
+        createAccountScreen.add(newAccountButton);
+
+        newAccountButton.addActionListener((e) -> {
+            try {
+                createNewAccount(createUserField.getText(), createPasswordField.getText(), createPinField.getText(), accounts, readWrite);
+            } catch (Exception ex) {
+                throw new RuntimeException(ex);
+            }
+        });
+
+        JButton toLoginButton = new JButton("Back");
+        createAccountScreen.add(toLoginButton);
+
+        toLoginButton.addActionListener((e) -> {
+            cardLayout.show(mainPanel, "loginScreen");
+        });
+
 
         //  text fields for login screen and adds buttons
         JTextField userNameField = new JTextField(10);
@@ -65,7 +94,7 @@ public class Layout extends JFrame{
 
 
         loginButton.addActionListener((e) -> {
-            for(Account account : session) {
+            for(Account account : accounts) {
                 if(account.getUserName().equals(userNameField.getText()) && account.getPassword().equals(passwordField.getText()) ) {
                     setUser(account);
                     System.out.println(account.getUserName());
@@ -104,5 +133,11 @@ public class Layout extends JFrame{
 
         JLabel limitLabel = new JLabel("Withdraw Limit: " + String.valueOf(user.getWithdrawLimit()));
         accountScreen.add(limitLabel);
+    }
+
+    public void createNewAccount(String name, String password, String pin, ArrayList<Account> accounts, AccReadWrite readWrite) throws Exception {
+        accounts.add(new Account(name, password, 0, Integer.parseInt(pin), 5, "silver", true, true, 12.00f ));
+        readWrite.write(new File("src/main/resources/database.csv"));
+        System.out.println(accounts.getLast().toString());
     }
 }

@@ -15,7 +15,7 @@ public class Main {
 
         ArrayList<Account> accounts = readWrite.getAccounts();
 
-        new Layout(accounts);
+        new Layout(accounts, readWrite);
         readWrite.write(new File("src/main/resources/test-data.csv"));
 
     }
