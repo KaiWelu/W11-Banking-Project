@@ -3,13 +3,13 @@ package org.dci;
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
-import java.rmi.server.ExportException;
 import java.util.ArrayList;
 
 public class Layout extends JFrame{
 //    public ArrayList<Account> session;
     public Account user;
     public AccReadWrite reWr;
+    public ArrayList<Account> userAccounts;
 
     // creates a new card layout and passes it to the jpanel
     CardLayout cardLayout = new CardLayout();
@@ -23,7 +23,7 @@ public class Layout extends JFrame{
 
     Layout(ArrayList<Account> accounts, AccReadWrite readWrite) {
         Account user = null;
-        ArrayList<Account> userAccounts = accounts;
+        this.userAccounts = accounts;
         this.reWr = readWrite;
 
 
@@ -167,6 +167,18 @@ public class Layout extends JFrame{
             }
         });
 
+        // send money dialogue
+        JButton sendMoneyButton = new JButton("Send Money");
+        accountScreen.add(sendMoneyButton);
+
+        sendMoneyButton.addActionListener((e) -> {
+            try {
+                sendMoney(balanceLabel);
+            } catch (Exception ex) {
+                throw new RuntimeException(ex);
+            }
+        });
+
 
 
     }
@@ -205,17 +217,57 @@ public class Layout extends JFrame{
         JTextField amount = new JTextField(5);
         JTextField pin = new JTextField(5);
 
-        JPanel withDrawPanel = new JPanel();
-        withDrawPanel.add(new JLabel("Amount: "));
-        withDrawPanel.add(amount);
-        withDrawPanel.add(new JLabel("PIN: "));
-        withDrawPanel.add(pin);
+        JPanel depositPanel = new JPanel();
+        depositPanel.add(new JLabel("Amount: "));
+        depositPanel.add(amount);
+        depositPanel.add(new JLabel("PIN: "));
+        depositPanel.add(pin);
 
-        int result = JOptionPane.showConfirmDialog(accountScreen, withDrawPanel, "Deposit Money", JOptionPane.OK_CANCEL_OPTION);
+        int result = JOptionPane.showConfirmDialog(accountScreen, depositPanel, "Deposit Money", JOptionPane.OK_CANCEL_OPTION);
 
         if(result == JOptionPane.OK_OPTION) {
-            boolean withDrawResult = user.depositMoney(Float.parseFloat(amount.getText()), Integer.parseInt(pin.getText()));
-            if(!withDrawResult) {
+            boolean depositResult = user.depositMoney(Float.parseFloat(amount.getText()), Integer.parseInt(pin.getText()));
+            if(!depositResult) {
+                JOptionPane.showMessageDialog(loginScreen, "Incorrect inputs!", "Error", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                reWr.write(new File("src/main/resources/database2.csv"));
+                balanceLabel.setText("Balance: " + String.valueOf(user.getBalance()) + " $");
+            }
+        }
+    }
+
+    public void sendMoney(JLabel balanceLabel) throws Exception {
+        JTextField amount = new JTextField(5);
+        JTextField pin = new JTextField(5);
+        JTextField targetUser = new JTextField(5);
+
+        JPanel sendPanel = new JPanel();
+        sendPanel.add(new JLabel("Amount: "));
+        sendPanel.add(amount);
+        sendPanel.add(new JLabel("PIN: "));
+        sendPanel.add(pin);
+        sendPanel.add(new JLabel("Target User"));
+        sendPanel.add(targetUser);
+
+        int result = JOptionPane.showConfirmDialog(accountScreen, sendPanel, "Deposit Money", JOptionPane.OK_CANCEL_OPTION);
+
+        if(result == JOptionPane.OK_OPTION) {
+            // search for target user
+            Account target = null;
+            for(Account account : userAccounts) {
+                if(account.getUserName().equals(targetUser.getText())) {
+                    target = account;
+                }
+            }
+
+            // check if target was found
+            if(target == null) {
+                JOptionPane.showMessageDialog(loginScreen, "Incorrect inputs!", "Error", JOptionPane.INFORMATION_MESSAGE);
+            }
+
+            boolean withDrawResult = user.withDrawMoney(Float.parseFloat(amount.getText()), Integer.parseInt(pin.getText()));
+            boolean depositResult = target.depositMoney(Float.parseFloat(amount.getText()), target.getPin());
+            if(!withDrawResult || !depositResult) {
                 JOptionPane.showMessageDialog(loginScreen, "Incorrect inputs!", "Error", JOptionPane.INFORMATION_MESSAGE);
             } else {
                 reWr.write(new File("src/main/resources/database2.csv"));
