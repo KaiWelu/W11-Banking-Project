@@ -96,10 +96,6 @@ public class Account {
     }
 
     public boolean withDrawMoney(float amount, int inputPin) {
-
-        if(!isCheckingAccount) {
-            return false;
-        }
         if(pin != inputPin) {
             return false;
         }
@@ -108,6 +104,14 @@ public class Account {
         }
 
         balance = balance - amount;
+        return true;
+    }
+
+    public boolean depositMoney(float amount, int inputPin) {
+        if(pin != inputPin) {
+            return false;
+        }
+        balance = balance + amount;
         return true;
     }
 

@@ -3,6 +3,7 @@ package org.dci;
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
+import java.rmi.server.ExportException;
 import java.util.ArrayList;
 
 public class Layout extends JFrame{
@@ -143,9 +144,12 @@ public class Layout extends JFrame{
         JLabel limitLabel = new JLabel("Withdraw Limit: " + String.valueOf(user.getWithdrawLimit()) + " $");
         accountScreen.add(limitLabel);
 
-        //        withdraw dialogue and button
+        //deposit and withdraw dialogue
         JButton withdrawButton = new JButton("Withdraw");
         accountScreen.add(withdrawButton);
+
+        JButton depositButton = new JButton("Deposit");
+        accountScreen.add(depositButton);
 
         withdrawButton.addActionListener((e) -> {
             try {
@@ -154,6 +158,16 @@ public class Layout extends JFrame{
                 throw new RuntimeException(ex);
             }
         });
+
+        depositButton.addActionListener((e) -> {
+            try {
+                depositDialogue(balanceLabel);
+            } catch (Exception ex) {
+                throw  new RuntimeException(ex);
+            }
+        });
+
+
 
     }
 
@@ -184,6 +198,29 @@ public class Layout extends JFrame{
                System.out.println(user.getBalance());
                balanceLabel.setText("Balance: " + String.valueOf(user.getBalance()) + " $");
            }
+        }
+    }
+
+    public void depositDialogue(JLabel balanceLabel) throws Exception {
+        JTextField amount = new JTextField(5);
+        JTextField pin = new JTextField(5);
+
+        JPanel withDrawPanel = new JPanel();
+        withDrawPanel.add(new JLabel("Amount: "));
+        withDrawPanel.add(amount);
+        withDrawPanel.add(new JLabel("PIN: "));
+        withDrawPanel.add(pin);
+
+        int result = JOptionPane.showConfirmDialog(accountScreen, withDrawPanel, "Deposit Money", JOptionPane.OK_CANCEL_OPTION);
+
+        if(result == JOptionPane.OK_OPTION) {
+            boolean withDrawResult = user.depositMoney(Float.parseFloat(amount.getText()), Integer.parseInt(pin.getText()));
+            if(!withDrawResult) {
+                JOptionPane.showMessageDialog(loginScreen, "Incorrect inputs!", "Error", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                reWr.write(new File("src/main/resources/database2.csv"));
+                balanceLabel.setText("Balance: " + String.valueOf(user.getBalance()) + " $");
+            }
         }
     }
 }
