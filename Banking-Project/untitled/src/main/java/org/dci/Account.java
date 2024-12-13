@@ -95,6 +95,22 @@ public class Account {
         this.withdrawLimit = withdrawLimit;
     }
 
+    public boolean withDrawMoney(float amount, int inputPin) {
+
+        if(!isCheckingAccount) {
+            return false;
+        }
+        if(pin != inputPin) {
+            return false;
+        }
+        if((balance - amount) < (withdrawLimit*-1)) {
+            return false;
+        }
+
+        balance = balance - amount;
+        return true;
+    }
+
     @Override
     public String toString() {
         return "Username: " + getUserName() + " Balance: " + getBalance();

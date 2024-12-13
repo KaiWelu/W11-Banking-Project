@@ -55,6 +55,7 @@ public class AccReadWrite {
         try {
 //          creates a filewrite object
             FileWriter outputfile = new FileWriter(file);
+
 //          Opencsv writer with filewriter as input
             CSVWriter writer = new CSVWriter(outputfile, ';',CSVWriter.NO_QUOTE_CHARACTER,
                     CSVWriter.DEFAULT_ESCAPE_CHARACTER,

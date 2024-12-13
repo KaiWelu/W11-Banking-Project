@@ -4,11 +4,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Random;
 
 public class Layout extends JFrame{
 //    public ArrayList<Account> session;
     public Account user;
+    public AccReadWrite reWr;
 
     // creates a new card layout and passes it to the jpanel
     CardLayout cardLayout = new CardLayout();
@@ -22,6 +22,8 @@ public class Layout extends JFrame{
 
     Layout(ArrayList<Account> accounts, AccReadWrite readWrite) {
         Account user = null;
+        ArrayList<Account> userAccounts = accounts;
+        this.reWr = readWrite;
 
 
         JButton loginButton = new JButton("Login");
@@ -103,8 +105,14 @@ public class Layout extends JFrame{
                     return;
                 }
             }
+            JOptionPane.showMessageDialog(loginScreen, "Username or Password is wrong!", "Error", JOptionPane.INFORMATION_MESSAGE);
             System.out.println("Something went wrong!");
         });
+
+
+
+//        deposit
+
 
         //        this sets up the jframe
         add(mainPanel);
@@ -134,11 +142,48 @@ public class Layout extends JFrame{
 
         JLabel limitLabel = new JLabel("Withdraw Limit: " + String.valueOf(user.getWithdrawLimit()) + " $");
         accountScreen.add(limitLabel);
+
+        //        withdraw dialogue and button
+        JButton withdrawButton = new JButton("Withdraw");
+        accountScreen.add(withdrawButton);
+
+        withdrawButton.addActionListener((e) -> {
+            try {
+                withDrawDialogue(balanceLabel);
+            } catch (Exception ex) {
+                throw new RuntimeException(ex);
+            }
+        });
+
     }
 
     public void createNewAccount(String name, String password, String pin, ArrayList<Account> accounts, AccReadWrite readWrite) throws Exception {
         accounts.add(new Account(name, password, 0, Integer.parseInt(pin), accounts.size()+1, "silver", true, true, 50.00f ));
         readWrite.write(new File("src/main/resources/database2.csv"));
         System.out.println(accounts.getLast().toString());
+    }
+
+    public void withDrawDialogue(JLabel balanceLabel) throws Exception {
+        JTextField amount = new JTextField(5);
+        JTextField pin = new JTextField(5);
+
+        JPanel withDrawPanel = new JPanel();
+        withDrawPanel.add(new JLabel("Amount: "));
+        withDrawPanel.add(amount);
+        withDrawPanel.add(new JLabel("PIN: "));
+        withDrawPanel.add(pin);
+
+        int result = JOptionPane.showConfirmDialog(accountScreen, withDrawPanel, "Withdraw Money", JOptionPane.OK_CANCEL_OPTION);
+
+        if(result == JOptionPane.OK_OPTION) {
+           boolean withDrawResult = user.withDrawMoney(Float.parseFloat(amount.getText()), Integer.parseInt(pin.getText()));
+           if(!withDrawResult) {
+               JOptionPane.showMessageDialog(loginScreen, "Incorrect inputs or insufficient funds!", "Error", JOptionPane.INFORMATION_MESSAGE);
+           } else {
+               reWr.write(new File("src/main/resources/database2.csv"));
+               System.out.println(user.getBalance());
+               balanceLabel.setText("Balance: " + String.valueOf(user.getBalance()) + " $");
+           }
+        }
     }
 }
