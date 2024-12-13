@@ -9,15 +9,16 @@ import java.util.ArrayList;
 
 public class Main {
     public static void main(String[] args) throws Exception{
-        File data = new File("src/main/resources/database2.csv");
+        // sets up a file to store the account data
+        File file = new File("src/main/resources/database2.csv");
+        // sets up a csv reader class object to read and write data
+        AccReadWrite readWrite = new AccReadWrite(file);
 
-        AccReadWrite readWrite = new AccReadWrite();
-        readWrite.read(data);
-
+        //readWrite.read();
+        // gets the accounts from the csv reader (refactor this)
         ArrayList<Account> accounts = readWrite.getAccounts();
 
+        // creates a new layout and passes accounts and reader as arguments
         new Layout(accounts, readWrite);
-//      readWrite.write(new File("src/main/resources/test-data.csv"));
-
     }
 }

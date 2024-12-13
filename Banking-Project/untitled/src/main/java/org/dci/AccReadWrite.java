@@ -12,15 +12,21 @@ import com.opencsv.CSVWriter;
 
 public class AccReadWrite {
     private ArrayList<Account> accounts = new ArrayList<>();
+    private final File file;
+
+    public AccReadWrite(File file) throws Exception {
+        this.file = file;
+        read();
+    }
 
     // gets a file to read
-    public void read(File file) throws Exception {
+    public void read() throws Exception {
         CSVReader csvReader = null;
         String [] nextLine;
 
         try {
 //            this builds a custom reader with ; as a separator
-            csvReader = new CSVReaderBuilder(new FileReader(file)).
+            csvReader = new CSVReaderBuilder(new FileReader(this.file)).
                     withCSVParser(new CSVParserBuilder()
                             .withSeparator(';').build())
                     .build();
@@ -49,7 +55,7 @@ public class AccReadWrite {
         return accounts;
     }
 
-    public void write(File file) throws Exception {
+    public void write() throws Exception {
 
 
         try {

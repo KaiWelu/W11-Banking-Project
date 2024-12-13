@@ -46,7 +46,6 @@ public class Layout extends JFrame{
 
 //        layout for different screens
         accountScreen.setLayout(new BoxLayout(accountScreen, BoxLayout.Y_AXIS));
-        // createAccountScreen.setLayout(new BoxLayout(createAccountScreen, BoxLayout.Y_AXIS));
 
         // text fields and buttons for create acc screen
         JLabel createAccLabel = new JLabel("Create a new bank account");
@@ -188,7 +187,7 @@ public class Layout extends JFrame{
 
     public void createNewAccount(String name, String password, String pin, ArrayList<Account> accounts, AccReadWrite readWrite) throws Exception {
         accounts.add(new Account(name, password, 0, Integer.parseInt(pin), accounts.size()+1, "silver", true, true, 50.00f ));
-        readWrite.write(new File("src/main/resources/database2.csv"));
+        readWrite.write();
         System.out.println(accounts.getLast().toString());
     }
 
@@ -209,7 +208,7 @@ public class Layout extends JFrame{
            if(!withDrawResult) {
                JOptionPane.showMessageDialog(loginScreen, "Incorrect inputs or insufficient funds!", "Error", JOptionPane.INFORMATION_MESSAGE);
            } else {
-               reWr.write(new File("src/main/resources/database2.csv"));
+               reWr.write();
                System.out.println(user.getBalance());
                balanceLabel.setText("Balance: " + String.valueOf(user.getBalance()) + " $");
            }
@@ -233,7 +232,7 @@ public class Layout extends JFrame{
             if(!depositResult) {
                 JOptionPane.showMessageDialog(loginScreen, "Incorrect inputs!", "Error", JOptionPane.INFORMATION_MESSAGE);
             } else {
-                reWr.write(new File("src/main/resources/database2.csv"));
+                reWr.write();
                 balanceLabel.setText("Balance: " + String.valueOf(user.getBalance()) + " $");
             }
         }
@@ -273,7 +272,7 @@ public class Layout extends JFrame{
             if(!withDrawResult || !depositResult) {
                 JOptionPane.showMessageDialog(loginScreen, "Incorrect inputs!", "Error", JOptionPane.INFORMATION_MESSAGE);
             } else {
-                reWr.write(new File("src/main/resources/database2.csv"));
+                reWr.write();
                 balanceLabel.setText("Balance: " + String.valueOf(user.getBalance()) + " $");
             }
         }
