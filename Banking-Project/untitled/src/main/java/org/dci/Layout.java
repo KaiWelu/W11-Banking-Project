@@ -85,7 +85,7 @@ public class Layout extends JFrame{
         userNameField.setText("Username");
         loginScreen.add(userNameField);
 
-        JTextField passwordField = new JTextField(10);
+        JTextField passwordField = new JPasswordField(10);
         passwordField.setText("Password");
         loginScreen.add(passwordField);
 
@@ -191,7 +191,7 @@ public class Layout extends JFrame{
 
     public void withDrawDialogue(JLabel balanceLabel) throws Exception {
         JTextField amount = new JTextField(5);
-        JTextField pin = new JTextField(5);
+        JTextField pin = new JPasswordField(5);
 
         JPanel withDrawPanel = new JPanel();
         withDrawPanel.add(new JLabel("Amount: "));
@@ -215,7 +215,7 @@ public class Layout extends JFrame{
 
     public void depositDialogue(JLabel balanceLabel) throws Exception {
         JTextField amount = new JTextField(5);
-        JTextField pin = new JTextField(5);
+        JTextField pin = new JPasswordField(5);
 
         JPanel depositPanel = new JPanel();
         depositPanel.add(new JLabel("Amount: "));
@@ -238,7 +238,7 @@ public class Layout extends JFrame{
 
     public void sendMoney(JLabel balanceLabel) throws Exception {
         JTextField amount = new JTextField(5);
-        JTextField pin = new JTextField(5);
+        JTextField pin = new JPasswordField(5);
         JTextField targetUser = new JTextField(5);
 
         JPanel sendPanel = new JPanel();
