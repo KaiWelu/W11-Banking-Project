@@ -109,13 +109,7 @@ public class Layout extends JFrame{
             JOptionPane.showMessageDialog(loginScreen, "Username or Password is wrong!", "Error", JOptionPane.INFORMATION_MESSAGE);
             System.out.println("Something went wrong!");
         });
-
-
-
-//        deposit
-
-
-        //        this sets up the jframe
+        // this sets up the jframe
         add(mainPanel);
         setSize(300, 300);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -177,6 +171,15 @@ public class Layout extends JFrame{
             } catch (Exception ex) {
                 throw new RuntimeException(ex);
             }
+        });
+
+        JButton logoutButton = new JButton("Logout");
+        accountScreen.add(logoutButton);
+
+        logoutButton.addActionListener((e) -> {
+            cardLayout.show(mainPanel, "loginScreen");
+            // removes all components from the previous user
+            accountScreen.removeAll();
         });
 
 
