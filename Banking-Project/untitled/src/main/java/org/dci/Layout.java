@@ -170,6 +170,17 @@ public class Layout extends JFrame{
             }
         });
 
+        JButton changePasswordButton = new JButton("Change Password");
+        accountScreen.add(changePasswordButton);
+
+        changePasswordButton.addActionListener((e) -> {
+            try {
+                changePassword(user);
+            } catch (Exception ex) {
+                throw new RuntimeException(ex);
+            }
+        });
+
         JButton logoutButton = new JButton("Logout");
         accountScreen.add(logoutButton);
 
@@ -187,6 +198,29 @@ public class Layout extends JFrame{
         accounts.add(new Account(name, password, 0, Integer.parseInt(pin), accounts.size()+1, "silver", true, true, 50.00f ));
 
         readWrite.write();
+
+    }
+
+    public void changePassword(Account user) throws  Exception {
+        JPanel changePasswordPanel = new JPanel();
+        JPasswordField  oldPassword = new JPasswordField(5);
+        JPasswordField  newPassword = new JPasswordField(5);
+
+        changePasswordPanel.add(new JLabel("Old Password"));
+        changePasswordPanel.add(oldPassword);
+
+        changePasswordPanel.add(new JLabel("New Password"));
+        changePasswordPanel.add(newPassword);
+
+        int result = JOptionPane.showConfirmDialog(accountScreen, changePasswordPanel, "Change Password", JOptionPane.OK_CANCEL_OPTION);
+
+        if(result == JOptionPane.OK_OPTION) {
+            if(!oldPassword.getText().equals(user.getPassword())) {
+                JOptionPane.showMessageDialog(loginScreen, "Incorrect password!", "Error", JOptionPane.INFORMATION_MESSAGE);
+            }
+                user.setPassword(newPassword.getText());
+                reWr.write();
+        }
 
     }
 
