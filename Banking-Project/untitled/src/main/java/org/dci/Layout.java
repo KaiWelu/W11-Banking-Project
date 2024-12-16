@@ -2,7 +2,6 @@ package org.dci;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.File;
 import java.util.ArrayList;
 
 public class Layout extends JFrame{
@@ -54,7 +53,7 @@ public class Layout extends JFrame{
         JTextField createUserField = new JTextField("Username", 20);
         createAccountScreen.add(createUserField);
 
-        JTextField createPasswordField = new JTextField("Password", 20);
+        JPasswordField createPasswordField = new JPasswordField("Password", 20);
         createAccountScreen.add(createPasswordField);
 
         JTextField createPinField = new JTextField("PIN", 20);
@@ -66,6 +65,11 @@ public class Layout extends JFrame{
         newAccountButton.addActionListener((e) -> {
             try {
                 createNewAccount(createUserField.getText(), createPasswordField.getText(), createPinField.getText(), accounts, readWrite);
+                createUserField.setText("Username");
+                createPasswordField.setText("Password");
+                createPinField.setText("PIN");
+                setUser(accounts.getLast());
+                cardLayout.show(mainPanel, "accountScreen");
             } catch (Exception ex) {
                 throw new RuntimeException(ex);
             }
@@ -100,7 +104,6 @@ public class Layout extends JFrame{
             for(Account account : accounts) {
                 if(account.getUserName().equals(userNameField.getText()) && account.getPassword().equals(passwordField.getText()) ) {
                     setUser(account);
-                    System.out.println(account.getUserName());
                     cardLayout.show(mainPanel, "accountScreen");
                     return;
                 }
@@ -114,11 +117,6 @@ public class Layout extends JFrame{
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setVisible(true);
 
-    }
-
-    public static void main(String[] args) {
-
-//        new Layout(account);
     }
 
     public void setUser(Account account) {
@@ -187,13 +185,14 @@ public class Layout extends JFrame{
 
     public void createNewAccount(String name, String password, String pin, ArrayList<Account> accounts, AccReadWrite readWrite) throws Exception {
         accounts.add(new Account(name, password, 0, Integer.parseInt(pin), accounts.size()+1, "silver", true, true, 50.00f ));
+
         readWrite.write();
-        System.out.println(accounts.getLast().toString());
+
     }
 
     public void withDrawDialogue(JLabel balanceLabel) throws Exception {
         JTextField amount = new JTextField(5);
-        JTextField pin = new JPasswordField(5);
+        JPasswordField pin = new JPasswordField(5);
 
         JPanel withDrawPanel = new JPanel();
         withDrawPanel.add(new JLabel("Amount: "));
@@ -217,7 +216,7 @@ public class Layout extends JFrame{
 
     public void depositDialogue(JLabel balanceLabel) throws Exception {
         JTextField amount = new JTextField(5);
-        JTextField pin = new JPasswordField(5);
+        JPasswordField pin = new JPasswordField(5);
 
         JPanel depositPanel = new JPanel();
         depositPanel.add(new JLabel("Amount: "));
