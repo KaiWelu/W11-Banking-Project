@@ -47,16 +47,19 @@ public class Layout extends JFrame{
         accountScreen.setLayout(new BoxLayout(accountScreen, BoxLayout.Y_AXIS));
 
         // text fields and buttons for create acc screen
-        JLabel createAccLabel = new JLabel("Create a new bank account");
-        createAccountScreen.add(createAccLabel);
+        //JLabel createAccLabel = new JLabel("Create a new bank account");
+        //createAccountScreen.add(createAccLabel);
 
+        createAccountScreen.add(new JLabel("Username"));
         JTextField createUserField = new JTextField("Username", 20);
         createAccountScreen.add(createUserField);
 
+        createAccountScreen.add(new JLabel("Password"));
         JPasswordField createPasswordField = new JPasswordField("Password", 20);
         createAccountScreen.add(createPasswordField);
 
-        JTextField createPinField = new JTextField("PIN", 20);
+        createAccountScreen.add(new JLabel("PIN"));
+        JPasswordField createPinField = new JPasswordField("PIN", 20);
         createAccountScreen.add(createPinField);
 
         JButton newAccountButton = new JButton("Create Account");
