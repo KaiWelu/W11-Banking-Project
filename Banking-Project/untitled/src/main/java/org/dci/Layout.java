@@ -117,6 +117,7 @@ public class Layout extends JFrame{
         // this sets up the jframe
         add(mainPanel);
         setSize(300, 300);
+        setTitle("Banking App");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setVisible(true);
 
@@ -201,7 +202,6 @@ public class Layout extends JFrame{
         accounts.add(new Account(name, password, 0, Integer.parseInt(pin), accounts.size()+1, "silver", true, true, 50.00f ));
 
         readWrite.write();
-
     }
 
     public void changePassword(Account user) throws  Exception {
